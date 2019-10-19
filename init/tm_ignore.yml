@@ -1,3 +1,13 @@
 ignore:
+  - opt/aklump/*/
+  - opt/cloudy/
+  - private/*/files/tmp
+  - private/logs/
   - vendor/
-  - node_modules/
+  - web/*/custom/*/dist
+  - web/*/custom/*/node_modules
+  - web/*/custom/*/vendor
+  - web/sites/*/files/css
+  - web/sites/*/files/js
+  - web/sites/*/files/php
+  - web/sites/*/files/styles
