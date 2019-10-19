@@ -27,13 +27,13 @@ function exclude_path() {
   fi
   path=$(realpath $path)
   if tmutil isexcluded "$path" | grep -q '\[Excluded\]'; then
-    list_add_item "$(echo_green $(path_unresolve $APP_ROOT $path)) is excluded."
+    list_add_item "$(echo_green $(path_unresolve "$APP_ROOT" "$path")) is excluded $(path_filesize $path)"
     continue
   fi
 
   if tmutil addexclusion "$path"; then
     sizeondisk=$(du -hs "$path" | cut -f1)
-    list_add_item "$(echo_green_highlight $(path_unresolve $APP_ROOT $path)) has just been excluded from Time Machine backups ($sizeondisk)."
+    list_add_item "$(echo_green_highlight $(path_unresolve "$APP_ROOT" "$path")) has just been excluded from Time Machine backups $(path_filesize $path)"
   else
     fail_because "Could not add $path"
   fi
@@ -62,11 +62,11 @@ command=$(get_command)
 case $command in
 
 "list")
-  echo_title "Paths TM Will Not Backup"
+  echo_title "Project Paths Excluded From TM"
   sublist=()
   list_clear
   while IFS= read -r path; do
-    [[ "$path" =~ "$APP_ROOT" ]] && list_add_item "$(path_unresolve $APP_ROOT $path)"
+    [[ "$path" =~ "$APP_ROOT" ]] && list_add_item "$(path_unresolve "$APP_ROOT" "$path") $(path_filesize "$path")"
   done < <(mdfind "com_apple_backup_excludeItem = 'com.apple.backupd'")
   echo_list
   exit_with_success "Done"
@@ -80,7 +80,7 @@ case $command in
     fail_because "Could not include $path in TM backups."
     exit_with_failure
   fi
-  output_path="$(path_unresolve $APP_ROOT $path)"
+  output_path="$(path_unresolve "$APP_ROOT" "$path")"
   succeed_because "The exclusion of $output_path has been reset.  This path will be included in future Time Machine backups."
 
   array_has_value__array=("${ignored_by_config[@]}")
@@ -91,7 +91,7 @@ case $command in
   ;;
 
 "apply")
-  echo_title "Ignoring files based on your configuration"
+  echo_title "Applying Exclusions Per Configuration"
   list_clear
   for path in "${ignored_by_config[@]}"; do
     exclude_path "$path"
