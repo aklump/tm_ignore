@@ -14,15 +14,12 @@ commands:
     aliases: [clearcache, cc]
     help: 'Clear all cached data.'
   apply:
-    help: Apply the ignore rules to Time Machine.
+    help: 'Apply the ignore rules to Time Machine.'
   reset:
-    help: Manually remove an exclusion to a file to directory.
-    arguments:
-      path:
-        help: The path to the file or folder, which to remove exclusion.
-        required: true
+    help: 'Manually remove an exclusion to a file to directory.'
+    arguments: { path: { help: 'The path to the file or folder, which to remove exclusion.', required: true } }
   list:
-    help: List all currently excluded items.
+    help: 'List all currently excluded items.'
 translate:
   ids:
     - 'Completed successfully.'
@@ -31,5 +28,5 @@ translate:
     en: null
 name: 'Time Machine Ignore'
 description: 'Easily ignore files and folders from Time Machine backups.'
-version: 0.0.1
+version: 0.0.2
 author: 'Aaron Klump <sourcecode@intheloftstudios.com>'
