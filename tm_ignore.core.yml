@@ -28,5 +28,5 @@ translate:
     en: null
 name: 'Time Machine Ignore'
 description: 'Easily ignore files and folders from Time Machine backups.'
-version: 0.0.5
+version: 0.0.6
 author: 'Aaron Klump <sourcecode@intheloftstudios.com>'
