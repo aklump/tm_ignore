@@ -19,7 +19,7 @@ commands:
     help: 'Manually remove an exclusion to a file to directory.'
     arguments: { path: { help: 'The path to the file or folder, which to remove exclusion.', required: true } }
   list:
-    help: 'List all currently excluded items.'
+    help: 'List all currently excluded project paths.'
 translate:
   ids:
     - 'Completed successfully.'

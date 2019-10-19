@@ -27,13 +27,13 @@ function exclude_path() {
   fi
   path=$(realpath $path)
   if tmutil isexcluded "$path" | grep -q '\[Excluded\]'; then
-    list_add_item "${path} is already excluded, skipping. $(echo_green "[OK]")"
+    list_add_item "$(echo_green $(path_unresolve $APP_ROOT $path)) is excluded."
     continue
   fi
 
   if tmutil addexclusion "$path"; then
     sizeondisk=$(du -hs "$path" | cut -f1)
-    list_add_item "${path} has been excluded from Time Machine backups ($sizeondisk). $(echo_green "[OK]")"
+    list_add_item "$(echo_green_highlight $(path_unresolve $APP_ROOT $path)) has just been excluded from Time Machine backups ($sizeondisk)."
   else
     fail_because "Could not add $path"
   fi
@@ -56,32 +56,44 @@ validate_input || exit_with_failure "Input validation failed."
 
 implement_cloudy_basic
 
-# Handle other commands.
+eval $(get_config_path_as -a ignored_by_config ignore)
+
 command=$(get_command)
 case $command in
 
 "list")
-  mdfind "com_apple_backup_excludeItem = 'com.apple.backupd'" || exit_with_failure
-  exit_with_success
+  echo_title "Paths TM Will Not Backup"
+  sublist=()
+  list_clear
+  while IFS= read -r path; do
+    [[ "$path" =~ "$APP_ROOT" ]] && list_add_item "$(path_unresolve $APP_ROOT $path)"
+  done < <(mdfind "com_apple_backup_excludeItem = 'com.apple.backupd'")
+  echo_list
+  exit_with_success "Done"
   ;;
 
 "reset")
-  path=$(get_command_arg 0)
-  path=$(path_relative_to_config_base "$path")
+  path="$(get_command_arg 0)"
+  echo_title "Reset: $path"
+  path="$(path_relative_to_config_base "$path")"
   if ! tmutil removeexclusion "$path"; then
     fail_because "Could not include $path in TM backups."
     exit_with_failure
   fi
-  echo_green "$path is now being included"
-  exit_with_init
+  output_path="$(path_unresolve $APP_ROOT $path)"
+  succeed_because "The exclusion of $output_path has been reset.  This path will be included in future Time Machine backups."
+
+  array_has_value__array=("${ignored_by_config[@]}")
+  if array_has_value "$path"; then
+    echo_warning "\"$output_path\" still appears in your ignore list, in your configuration.  To permanentely allow \"$output_path\" to be backed up, you must remove it from your configuration.  If not, the apply command will cause \"$output_path\" to be excluded again."
+  fi
+  exit_with_success
   ;;
 
 "apply")
   echo_title "Ignoring files based on your configuration"
-  eval $(get_config_path_as -a ignores ignore)
-
   list_clear
-  for path in "${ignores[@]}"; do
+  for path in "${ignored_by_config[@]}"; do
     exclude_path "$path"
   done
 
