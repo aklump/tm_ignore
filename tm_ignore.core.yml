@@ -1,0 +1,35 @@
+title: 'Time Machine Ignore'
+config_path_base: ../../..
+path_to_app: .
+additional_config:
+  - bin/config/tm_ignore.yml
+  - bin/config/tm_ignore.local.yml
+additional_bootstrap: null
+default_command: ignore
+commands:
+  help:
+    help: 'Show this help screen.'
+    options: { version: { help: 'Display the current version', type: boolean } }
+  clear-cache:
+    aliases: [clearcache, cc]
+    help: 'Clear all cached data.'
+  apply:
+    help: Apply the ignore rules to Time Machine.
+  reset:
+    help: Manually remove an exclusion to a file to directory.
+    arguments:
+      path:
+        help: The path to the file or folder, which to remove exclusion.
+        required: true
+  list:
+    help: List all currently excluded items.
+translate:
+  ids:
+    - 'Completed successfully.'
+    - Failed.
+  strings:
+    en: null
+name: 'Time Machine Ignore'
+description: 'Easily ignore files and folders from Time Machine backups.'
+version: 0.0.1
+author: 'Aaron Klump <sourcecode@intheloftstudios.com>'

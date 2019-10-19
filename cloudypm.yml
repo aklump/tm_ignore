@@ -1,0 +1,5 @@
+name: aklump/tm_ignore
+clone_from: https://github.com/aklump/tm_ignore
+entry_script: tm_ignore.sh
+entry_symlink: tm_ignore
+on_install: init
