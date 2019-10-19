@@ -5,7 +5,7 @@ additional_config:
   - bin/config/tm_ignore.yml
   - bin/config/tm_ignore.local.yml
 additional_bootstrap: null
-default_command: ignore
+default_command: apply
 commands:
   help:
     help: 'Show this help screen.'
