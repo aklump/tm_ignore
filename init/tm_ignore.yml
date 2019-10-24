@@ -2,6 +2,7 @@ ignore:
   - opt/aklump/*/
   - opt/cloudy/
   - private/*/files/tmp
+  - private/*/db/purgeable
   - private/logs/
   - vendor/
   - web/*/custom/*/dist
