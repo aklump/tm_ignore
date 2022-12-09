@@ -8,6 +8,8 @@
 # Define the configuration file relative to this script.
 CONFIG="tm_ignore.core.yml"
 
+COMPOSER_VENDOR=""
+
 # Uncomment this line to enable file logging.
 #LOGFILE="tm_ignore.core.log"
 
