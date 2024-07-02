@@ -1,9 +1,7 @@
 title: 'Time Machine Ignore'
-config_path_base: ../../..
-path_to_app: .
 additional_config:
-  - bin/config/tm_ignore.yml
-  - bin/config/tm_ignore.local.yml
+  - '{APP_ROOT}/bin/config/tm_ignore.yml'
+  - '{APP_ROOT}/bin/config/tm_ignore.local.yml'
 additional_bootstrap: null
 default_command: apply
 commands:

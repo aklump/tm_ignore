@@ -13,7 +13,7 @@ COMPOSER_VENDOR=""
 # Uncomment this line to enable file logging.
 #LOGFILE="tm_ignore.core.log"
 
-function on_pre_config() {
+function on_boot() {
   [[ "$(get_command)" == "init" ]] && exit_with_init
 }
 
