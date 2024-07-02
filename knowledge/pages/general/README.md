@@ -1,6 +1,11 @@
+<!--
+id: readme
+tags: ''
+-->
+
 # Time Machine Ignore
 
-![tm_ignore](images/tm-ignore.jpg)
+![tm_ignore](../../images/tm-ignore.jpg)
 
 ## Summary
 
